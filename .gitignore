@@ -1,0 +1,15 @@
+# Django
+__pycache__/
+*.pyc
+*.log
+db.sqlite3
+.env
+
+# Virtual environment
+venv/
+env/
+upohar_env/
+
+# IDE
+.vscode/
+.idea/
