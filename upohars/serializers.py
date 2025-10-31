@@ -7,6 +7,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'is_active']
 
 class UpoharImageSerializer(serializers.ModelSerializer):
+    image=serializers.ImageField()
     class Meta:
         model = UpoharImage
         fields = ['id', 'image', 'is_primary', 'uploaded_at']
@@ -23,15 +24,16 @@ class UpoharPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = UpoharPost
         fields = [
-            'id', 'donor', 'receiver', 'category', 'title', 'description', 'city',
-            'image', 'images', 'status', 'created_at', 'updated_at'
+            'id', 'donor', 'receiver', 'category', 'type', 'exchange_item_name', 'exchange_item_description',
+            'title', 'description', 'city', 'image', 'images',
+            'status', 'created_at', 'updated_at'
         ]
 
     def get_donor(self, obj):
         if obj.donor:
             return obj.donor.name if obj.donor.name else obj.donor.email
         return None
-    
+
         
     
 from users.models import User

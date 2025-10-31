@@ -17,9 +17,9 @@ class ChatMessageInline(admin.TabularInline):
 
 @admin.register(ChatThread)
 class ChatThreadAdmin(admin.ModelAdmin):
-    list_display = ['id', 'gift', 'donor', 'receiver', 'created_at', 'updated_at']
-    list_filter = ['created_at', 'updated_at', 'donor', 'receiver']
-    search_fields = ['gift__title', 'donor__email', 'receiver__email']
+    list_display = ['id', 'gift', 'user1', 'user2', 'created_at', 'updated_at']
+    list_filter = ['created_at', 'updated_at', 'user1', 'user2']
+    search_fields = ['gift__title', 'user1__email', 'user2__email']
     readonly_fields = ['id', 'created_at', 'updated_at']
     inlines = [ChatMessageInline]
     ordering = ['-created_at']

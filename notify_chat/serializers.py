@@ -14,9 +14,9 @@ class ChatMessageSerializer(serializers.ModelSerializer):
         fields = ['id', 'thread', 'sender', 'message', 'created_at', 'is_read']
 
 class ChatThreadSerializer(serializers.ModelSerializer):
-    donor = serializers.StringRelatedField()
-    receiver = serializers.StringRelatedField()
+    user1 = serializers.StringRelatedField()
+    user2 = serializers.StringRelatedField()
     messages = ChatMessageSerializer(many=True, read_only=True)
     class Meta:
         model = ChatThread
-        fields = ['id', 'gift', 'donor', 'receiver', 'created_at', 'updated_at', 'messages']
+        fields = ['id', 'gift', 'user1', 'user2', 'created_at', 'updated_at', 'messages']

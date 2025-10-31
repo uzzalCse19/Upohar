@@ -4,11 +4,15 @@ from django.db import models
 
 from django.db import models
 from users.models import User
-import uuid
+from django.db import models
+from users.models import User
+from upohars.models import UpoharPost
+
+from django.utils import timezone
 from django.utils import timezone
 
 class Notification(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+  
     recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
     title = models.CharField(max_length=200)
     message = models.TextField()
@@ -30,30 +34,26 @@ class Notification(models.Model):
     class Meta:
         ordering = ['-created_at']
 
-from django.db import models
-from users.models import User
-from upohars.models import UpoharPost
-import uuid
-from django.utils import timezone
+
 
 class ChatThread(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     gift = models.ForeignKey(UpoharPost, on_delete=models.CASCADE, related_name='chat_threads')
-    donor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='donor_threads')
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver_threads')
+    user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='thread_user1')
+    user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='thread_user2', null=True, blank=True)
+
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ('gift', 'donor', 'receiver')
+        unique_together = ('gift', 'user1', 'user2')
         ordering = ['-created_at']
 
     def __str__(self):
-        return f"Chat: {self.gift.title} ({self.donor.email} ↔ {self.receiver.email})"
+        return f"Chat: {self.gift.title} ({self.user1.email} ↔ {self.user2.email})"
 
 
 class ChatMessage(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+   
     thread = models.ForeignKey(ChatThread, on_delete=models.CASCADE, related_name='messages')
     sender = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.TextField()

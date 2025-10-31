@@ -8,12 +8,12 @@ from users.models import User
 @receiver(post_save, sender=UpoharPost)
 def create_upohar_notification(sender, instance, created, **kwargs):
     if created:
-        recipients = User.objects.filter(role__in=['receiver', 'both']).exclude(id=instance.donor.id)
-
+        recipients = User.objects.exclude(id=instance.donor.id)  # For ALL except donor
+        donor_name = instance.donor.name if instance.donor.name else instance.donor.email
         for user in recipients:
             Notification.objects.create(
                 recipient=user,
-               title=f"New Upohar Posted by {instance.donor.name}",
-                message=f"{instance.donor.get_full_name()} posted a new gift: {instance.title}",
+               title=f"New Upohar Posted by {donor_name}",
+                message=f"{donor_name} posted a new gift: {instance.title}",
                 type='upohar_request'
             )

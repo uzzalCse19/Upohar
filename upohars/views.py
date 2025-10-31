@@ -7,7 +7,12 @@ from .serializers import (
 )
 from .filters import UpoharPostFilter
 from .paginations import StandardResultsSetPagination
-
+from rest_framework import viewsets, permissions, status, filters
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from django.core.exceptions import PermissionDenied
+from .models import UpoharRequest, UpoharPost
+from .serializers import UpoharRequestSerializer
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
@@ -26,9 +31,9 @@ class UpoharPostViewSet(viewsets.ModelViewSet):
     ordering_fields = ['created_at', 'status']
     def perform_create(self, serializer):
         user = self.request.user
-        if user.role not in ['donor', 'both']:
-            raise PermissionDenied("Only donors or both-role users can create Upohar posts.")
-        
+        if user.role not in ['donor', 'exchanger']:
+           raise PermissionDenied("Only donors or exchangers can create Upohar posts.")
+      
         serializer.save(donor=user)
         
 
@@ -38,17 +43,6 @@ class UpoharImageViewSet(viewsets.ModelViewSet):
     queryset = UpoharImage.objects.all()
     serializer_class = UpoharImageSerializer
     permission_classes = [permissions.IsAuthenticated]
-
-
-
-
-from rest_framework import viewsets, permissions, status, filters
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from django.core.exceptions import PermissionDenied
-from .models import UpoharRequest, UpoharPost
-from .serializers import UpoharRequestSerializer
-
 
 class UpoharRequestViewSet(viewsets.ModelViewSet):
     """

@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.validators import RegexValidator
-import uuid
 
+from cloudinary.models import CloudinaryField
 class CustomUserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -23,16 +23,17 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractUser):
     username = None  # <---- REMOVE USERNAME FIELD
     ROLE_CHOICES = [
-        ('donor', 'Donor'),
-        ('receiver', 'Receiver'),
-        ('both', 'Both'),
-    ]
+    ('donor', 'Donor'),
+    ('receiver', 'Receiver'),
+    ('exchanger', 'Exchanger'),
+]
+
+    
     STATUS_CHOICES = [
         ('active', 'Active'),
         ('inactive', 'Inactive'),
         ('suspended', 'Suspended'),
     ]
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=150)
     email = models.EmailField(unique=True)
     phone = models.CharField(
@@ -44,9 +45,9 @@ class User(AbstractUser):
             message="Enter a valid Bangladeshi phone number"
         )]
     )
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='both')
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='donor')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
-    profile_photo = models.ImageField(upload_to='profiles/', blank=True, null=True)
+    profile_photo = CloudinaryField('profile_photo', null=True, blank=True)
     address = models.TextField(blank=True)
     total_donations = models.PositiveIntegerField(default=0)
     groups = models.ManyToManyField(

@@ -5,10 +5,7 @@ from rest_framework import viewsets, permissions
 from .models import Notification, ChatThread, ChatMessage
 from .serializers import NotificationSerializer, ChatThreadSerializer, ChatMessageSerializer
 
-# class NotificationViewSet(viewsets.ModelViewSet):
-#     queryset = Notification.objects.all()
-#     serializer_class = NotificationSerializer
-#     permission_classes = [permissions.IsAuthenticated]
+
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response

@@ -7,3 +7,4 @@ class NotifyChatConfig(AppConfig):
 
     def ready(self):
         import notify_chat.signals   # ✅ This line is missing
+
