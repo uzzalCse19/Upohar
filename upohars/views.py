@@ -14,10 +14,15 @@ from django.core.exceptions import PermissionDenied
 from .models import UpoharRequest, UpoharPost
 from .serializers import UpoharRequestSerializer
 
+from rest_framework import viewsets, permissions
+from .models import Category
+from .serializers import CategorySerializer
+
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.AllowAny]
+
 
 from rest_framework.exceptions import PermissionDenied
 class UpoharPostViewSet(viewsets.ModelViewSet):
