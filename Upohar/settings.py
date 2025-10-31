@@ -13,17 +13,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-q!ar1^%mw(=edq^aadv25r+!bp%q#ieyc_g4!%rfb$-^$flx*="
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-CORS_ALLOWED_ORIGINS = [
-    # ".vercel.app",
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://localhost:5174",
-    "http://127.0.0.1:5174",
+DEBUG = False
+# CORS_ALLOWED_ORIGINS = [
+#     # ".vercel.app",
+#     "http://127.0.0.1:8000",
+#     "http://localhost:5173",
+#     "http://127.0.0.1:5173",
+#     "http://localhost:5174",
+#     "http://127.0.0.1:5174",
 
-]
+# ]
 CORS_ALLOW_ALL_ORIGINS = True
-ALLOWED_HOSTS = []
+DEBUG = False
+
+ALLOWED_HOSTS = [
+    ".vercel.app",
+    'localhost',
+    '127.0.0.1',
+]
+
 AUTH_USER_MODEL = 'users.User'
 
 
