@@ -7,25 +7,51 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'is_active']
 
 class UpoharImageSerializer(serializers.ModelSerializer):
-    image=serializers.ImageField()
+    image = serializers.SerializerMethodField()  # 🔹 use method
+
     class Meta:
         model = UpoharImage
         fields = ['id', 'image', 'is_primary', 'uploaded_at']
 
+    def get_image(self, obj):
+        if obj.image:
+            return obj.image.url  # 🔹 important for CloudinaryField
+        return None
+
+
 from rest_framework import serializers
 from .models import UpoharPost, Category, UpoharImage
+
+# class UpoharPostSerializer(serializers.ModelSerializer):
+#     donor = serializers.SerializerMethodField()
+#     receiver = serializers.StringRelatedField(read_only=True)
+#     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+#     images = UpoharImageSerializer(many=True, read_only=True)
+
+#     class Meta:
+#         model = UpoharPost
+#         fields = [
+#             'id', 'donor', 'receiver', 'category', 'type', 'exchange_item_name', 'exchange_item_description',
+#             'title', 'description', 'city', 'image', 'images',
+#             'status', 'created_at', 'updated_at'
+#         ]
+
+#     def get_donor(self, obj):
+#         if obj.donor:
+#             return obj.donor.name if obj.donor.name else obj.donor.email
+#         return None
 
 class UpoharPostSerializer(serializers.ModelSerializer):
     donor = serializers.SerializerMethodField()
     receiver = serializers.StringRelatedField(read_only=True)
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
-    images = UpoharImageSerializer(many=True, read_only=True)
+    primary_image = serializers.SerializerMethodField()  # 🔹 new
 
     class Meta:
         model = UpoharPost
         fields = [
             'id', 'donor', 'receiver', 'category', 'type', 'exchange_item_name', 'exchange_item_description',
-            'title', 'description', 'city', 'image', 'images',
+            'title', 'description', 'city', 'image', 'primary_image', 'images',
             'status', 'created_at', 'updated_at'
         ]
 
@@ -34,7 +60,15 @@ class UpoharPostSerializer(serializers.ModelSerializer):
             return obj.donor.name if obj.donor.name else obj.donor.email
         return None
 
-        
+    def get_primary_image(self, obj):
+        # return first primary image or fallback to post.image
+        primary = obj.images.filter(is_primary=True).first()
+        if primary and primary.image:
+            return primary.image.url
+        elif obj.image:
+            return obj.image.url
+        return None
+       
     
 from users.models import User
 
