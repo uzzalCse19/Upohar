@@ -23,7 +23,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     permission_classes = [permissions.AllowAny]
 
-
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.exceptions import PermissionDenied
 class UpoharPostViewSet(viewsets.ModelViewSet):
     queryset = UpoharPost.objects.all()
@@ -34,6 +34,7 @@ class UpoharPostViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend]
     search_fields = ['title', 'description']
     ordering_fields = ['created_at', 'status']
+    parser_classes = [MultiPartParser, FormParser]
     def perform_create(self, serializer):
         user = self.request.user
         if user.role not in ['donor', 'exchanger']:

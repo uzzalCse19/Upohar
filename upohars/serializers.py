@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import Category, UpoharPost, UpoharImage, UpoharRequest
+from rest_framework import serializers
+from .models import UpoharRequest, UpoharPost
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,24 +24,6 @@ class UpoharImageSerializer(serializers.ModelSerializer):
 from rest_framework import serializers
 from .models import UpoharPost, Category, UpoharImage
 
-# class UpoharPostSerializer(serializers.ModelSerializer):
-#     donor = serializers.SerializerMethodField()
-#     receiver = serializers.StringRelatedField(read_only=True)
-#     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
-#     images = UpoharImageSerializer(many=True, read_only=True)
-
-#     class Meta:
-#         model = UpoharPost
-#         fields = [
-#             'id', 'donor', 'receiver', 'category', 'type', 'exchange_item_name', 'exchange_item_description',
-#             'title', 'description', 'city', 'image', 'images',
-#             'status', 'created_at', 'updated_at'
-#         ]
-
-#     def get_donor(self, obj):
-#         if obj.donor:
-#             return obj.donor.name if obj.donor.name else obj.donor.email
-#         return None
 
 class UpoharPostSerializer(serializers.ModelSerializer):
     donor = serializers.SerializerMethodField()
@@ -74,8 +58,7 @@ from users.models import User
 
 
 
-from rest_framework import serializers
-from .models import UpoharRequest, UpoharPost
+
 
 
 class UpoharRequestSerializer(serializers.ModelSerializer):
@@ -115,4 +98,24 @@ class UpoharRequestSerializer(serializers.ModelSerializer):
 #     def get_requester(self, obj):
 #         if obj.requester:
 #             return obj.requester.name if obj.requester.name else obj.requester.email
+#         return None
+
+
+# class UpoharPostSerializer(serializers.ModelSerializer):
+#     donor = serializers.SerializerMethodField()
+#     receiver = serializers.StringRelatedField(read_only=True)
+#     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+#     images = UpoharImageSerializer(many=True, read_only=True)
+
+#     class Meta:
+#         model = UpoharPost
+#         fields = [
+#             'id', 'donor', 'receiver', 'category', 'type', 'exchange_item_name', 'exchange_item_description',
+#             'title', 'description', 'city', 'image', 'images',
+#             'status', 'created_at', 'updated_at'
+#         ]
+
+#     def get_donor(self, obj):
+#         if obj.donor:
+#             return obj.donor.name if obj.donor.name else obj.donor.email
 #         return None
