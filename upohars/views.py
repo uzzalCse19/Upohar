@@ -39,7 +39,7 @@ class UpoharPostViewSet(viewsets.ModelViewSet):
         if user.role not in ['donor', 'exchanger']:
            raise PermissionDenied("Only donors or exchangers can create Upohar posts.")
       
-        serializer.save(donor=user)
+        serializer.save(donor=self.request.user)
         
 
 
