@@ -10,8 +10,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .serializers import (
-    BasicUserSerializer, UpoharPostSerializer,
-    UpoharRequestSerializer, AnalyticsSummarySerializer
+    BasicUserSerializer
+ 
 )
 from django.db.models import Count
 from django.db.models.functions import TruncMonth
@@ -32,7 +32,7 @@ from django.db.models.functions import TruncMonth
 
 from .models import User
 from .serializers import (
-    UserSerializer, BasicUserSerializer, UpoharPostSerializer, UpoharRequestSerializer
+    UserSerializer, BasicUserSerializer
 )
 from .permissions import IsAdminOrReadOnly, IsSelfOrAdmin
 from upohars.models import UpoharPost, UpoharRequest

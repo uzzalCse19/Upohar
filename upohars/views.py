@@ -36,11 +36,19 @@ class UpoharPostViewSet(viewsets.ModelViewSet):
     ordering_fields = ['created_at', 'status']
     parser_classes = [MultiPartParser, FormParser]
     def perform_create(self, serializer):
-        user = self.request.user
-        if user.role not in ['donor', 'exchanger']:
-           raise PermissionDenied("Only donors or exchangers can create Upohar posts.")
+       user = self.request.user
+       if not user.is_authenticated:
+          raise PermissionDenied("You must be logged in to create a post.")
+    # Superusers and staff can always create posts
+       if user.is_superuser or user.is_staff:
+          serializer.save(donor=user)
+       elif user.role in ['donor', 'exchanger']:
+          serializer.save(donor=user)
+       else:
+          raise PermissionDenied("Only donors, exchangers, or admin/staff can create Upohar posts.")
+ 
       
-        serializer.save(donor=self.request.user)
+      
         
 
 
