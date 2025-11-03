@@ -81,7 +81,7 @@ class UpoharRequestViewSet(viewsets.ModelViewSet):
             return UpoharRequest.objects.none()
 
         # Donor or Both → show requests for gifts they posted
-        if getattr(user, 'role', None) in ['donor', 'both']:
+        if getattr(user, 'role', None) in ['donor']:
             return UpoharRequest.objects.filter(gift__donor=user)
 
         # Requester → show only their own requests
