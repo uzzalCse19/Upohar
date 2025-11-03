@@ -35,7 +35,7 @@ class UpoharPostSerializer(serializers.ModelSerializer):
         model = UpoharPost
         fields = [
             'id', 'donor', 'receiver', 'category', 'type', 'exchange_item_name', 'exchange_item_description',
-            'title', 'description', 'city', 'image', 'primary_image', 'images',
+            'title', 'description', 'city', 'image', 'primary_image',
             'status', 'created_at', 'updated_at'
         ]
 

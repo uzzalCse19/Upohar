@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import User
-from upohars.models import UpoharPost, UpoharRequest
+
 
 # Main User Serializer (for profile, get/update, admin)
 class UserSerializer(serializers.ModelSerializer):
@@ -44,27 +44,6 @@ class BasicUserSerializer(serializers.ModelSerializer):
     def get_badge_level(self, obj):
         return obj.badge_level
 
-# Post info for dashboard/reference
-class UpoharPostSerializer(serializers.ModelSerializer):
-    donor = BasicUserSerializer()
-    receiver = BasicUserSerializer()
-
-    class Meta:
-        model = UpoharPost
-        fields = [
-            'id', 'title', 'status', 'donor', 'receiver',
-            'category', 'type', 'exchange_item_name', 'exchange_item_description',
-            'created_at', 'updated_at'
-        ]
-
-# Request info for dashboard/reference
-class UpoharRequestSerializer(serializers.ModelSerializer):
-    gift = UpoharPostSerializer()
-    requester = BasicUserSerializer()
-
-    class Meta:
-        model = UpoharRequest
-        fields = ['id', 'gift', 'requester', 'status', 'created_at']
 
 # Optional: For analytics/statistics (custom API endpoints)
 class AnalyticsSummarySerializer(serializers.Serializer):
