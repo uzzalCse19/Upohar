@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Category, UpoharPost, UpoharImage, UpoharRequest
 from rest_framework import serializers
 from .models import UpoharRequest, UpoharPost
-
+from users.serializers import BasicUserSerializer
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category

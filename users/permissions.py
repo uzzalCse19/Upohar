@@ -17,13 +17,25 @@
 
 
 from rest_framework import permissions
+# upohar/permissions.py
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 
-class IsAdminOrReadOnly(permissions.BasePermission):
-    """Allow only admins to edit; others read-only."""
+class IsAdminOrReadOnly(BasePermission):
+    """
+    Allow read-only for anyone, write only for admin/staff.
+    """
     def has_permission(self, request, view):
-        return request.method in permissions.SAFE_METHODS or (
-            request.user and request.user.is_staff
-        )
+        if request.method in SAFE_METHODS:
+            return True
+        return bool(request.user and request.user.is_authenticated and (request.user.is_staff or request.user.is_superuser))
+
+class IsAdminUserStrict(BasePermission):
+    """
+    Only allow admin/staff
+    """
+    def has_permission(self, request, view):
+        return bool(request.user and request.user.is_authenticated and (request.user.is_staff or request.user.is_superuser))
+ 
 
 class IsDonorOrReceiver(permissions.BasePermission):
     """Allow access only to donor/receiver/exchanger."""
