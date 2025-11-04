@@ -326,20 +326,20 @@ class AdminDashboardView(APIView):
 
 
 
-# class DonorDashboardView(APIView):
-#     permission_classes = [IsAuthenticated]
-#     def get(self, request):
-#         user = request.user
-#         posts = UpoharPost.objects.filter(donor=user)
-#         requests = UpoharRequest.objects.filter(gift__donor=user)
-#         data = {
-#             'user': BasicUserSerializer(user).data,
-#             'donated_gifts': UpoharPostSerializer(posts, many=True).data,
-#             'requests': UpoharRequestSerializer(requests, many=True).data,
-#             'total_donated': posts.count(),
-#             'total_completed': posts.filter(status='completed').count(),
-#         }
-#         return Response(data)
+class DonorDashboardView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        user = request.user
+        posts = UpoharPost.objects.filter(donor=user)
+        requests = UpoharRequest.objects.filter(gift__donor=user)
+        data = {
+            'user': BasicUserSerializer(user).data,
+            'donated_gifts': UpoharPostSerializer(posts, many=True).data,
+            'requests': UpoharRequestSerializer(requests, many=True).data,
+            'total_donated': posts.count(),
+            'total_completed': posts.filter(status='completed').count(),
+        }
+        return Response(data)
 
 # class ReceiverDashboardView(APIView):
 #     permission_classes = [IsAuthenticated]
