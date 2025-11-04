@@ -25,7 +25,10 @@ DEBUG = False
 # ]
 CORS_ALLOW_ALL_ORIGINS = True
 DEBUG = False
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://upohar.vercel.app",  # If frontend hosted here
+]
 ALLOWED_HOSTS = [
     ".vercel.app",
     'localhost',
