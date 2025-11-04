@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         ref_name="UserSerializer"
         fields = [
-            'id', 'name', 'email', 'phone', 'role', 'status',
+            'id', 'name', 'email', 'phone', 'role', 'status','is_superuser',
             'profile_photo', 'address', 'total_donations', 'badge_level'
         ]
         read_only_fields = ['id', 'badge_level', 'total_donations']
